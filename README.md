@@ -1,12 +1,38 @@
-<!DOCtype html>
+<!DOCTYPE html>
+<html>
+<head>
+ 
+</head>
+<body>
+<h1>My code collestions</h1>
+<table>
+  <tr>
+    <th>Serial No.</th>
+    <th>Project Name</th>
+    <th>Deployed link</th>
+    <th>Link</th>
+    <th>Tags</th>
+    <th>Date</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>The guessing game</td>
+    <td>-----</td>
+    <td>  <a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/guessing%20game/main.py">GitHub Repo</a>   </td>
+    <td>#python</td>
+    <td>25/2/2024</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>The python calculator</td>
+    <td>-----</td>
+    <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/python%20calculator/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>26/2/2024</td>
+  </tr>
+   
+   
+</table>
 
-<body bgcolor="yellow">
-<h4>My code collestions</h4>
-
-| Serial No. | Project Name | Deployed link | Link | Tags | Date|
-|---|---|---|---|---| --- |
-| 1 |The guessing game |----- | [GitHub Repo](https://github.com/Vignesha0408/Code-collections/blob/main/Python/guessing%20game/main.py) | #python | 25/2/2024|
-| 2 |The python calculator |----- | [GitHub Repo](https://github.com/Vignesha0408/Code-collections/blob/main/Python/python%20calculator/main.py) | #python | 26/2/2024|
-
- </body>
+</body>
 </html>
