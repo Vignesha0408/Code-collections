@@ -30,6 +30,17 @@
     <td>#python</td>
     <td>26/2/2024</td>
   </tr>
+
+  <tr>
+    <td>3</td>
+    <td>Rock-Paper-Scissors</td>
+    <td>-----</td>
+    <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Rock-Paper-Scissors/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>12/3/2024</td>
+  </tr>
+
+
    
    
 </table>
