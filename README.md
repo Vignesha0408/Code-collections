@@ -41,6 +41,18 @@
   </tr>
 
 
+
+
+  <tr>
+    <td>4</td>
+    <td>Mini calucator</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/python%20calculator/Mini%20calucator/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>14/3/2024</td>
+  </tr>
+
+
    
    
 </table>
