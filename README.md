@@ -1,9 +1,8 @@
 
 <html>
-<head>
- 
+ <head> 
 </head>
-<body>
+ <body>
 <h1>My code collections</h1>
 <table>
   <tr>
@@ -47,9 +46,6 @@
     <td>#python</td>
     <td>14/3/2024</td>
   </tr>
-
-
-
 <tr>
     <td>5</td>
     <td>Random password generator</td>
@@ -58,6 +54,23 @@
     <td>#python</td>
     <td>14/3/2024</td>
   </tr>
+
+
+
+<tr>
+    <td>6</td>
+    <td>Quizz game</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Quizz%20game/main.py ">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>14/3/2024</td>
+  </tr>
+
+
+
+
+
+
 
    
    
