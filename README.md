@@ -4,7 +4,7 @@
  
 </head>
 <body>
-<h1>My code collestions</h1>
+<h1>My code collections</h1>
 <table>
   <tr>
     <th>Serial No.</th>
@@ -39,10 +39,6 @@
     <td>#python</td>
     <td>12/3/2024</td>
   </tr>
-
-
-
-
   <tr>
     <td>4</td>
     <td>Mini calucator</td>
@@ -52,6 +48,16 @@
     <td>14/3/2024</td>
   </tr>
 
+
+
+<tr>
+    <td>5</td>
+    <td>Random password generator</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Random%20Password%20generator/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>14/3/2024</td>
+  </tr>
 
    
    
