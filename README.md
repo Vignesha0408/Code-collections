@@ -54,9 +54,6 @@
     <td>#python</td>
     <td>14/3/2024</td>
   </tr>
-
-
-
 <tr>
     <td>6</td>
     <td>Quizz game</td>
@@ -64,6 +61,17 @@
      <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Quizz%20game/main.py ">GitHub Repo</a></td>
     <td>#python</td>
     <td>14/3/2024</td>
+  </tr>
+
+
+
+<tr>
+    <td>7</td>
+    <td>Rupees converter</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Rupees%20converter/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>15/3/2024</td>
   </tr>
 
 
