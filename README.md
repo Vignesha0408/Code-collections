@@ -76,7 +76,14 @@
 
 
 
-
+<tr>
+    <td>8</td>
+    <td>Story development</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Story%20development/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>18/3/2024</td>
+  </tr>
 
 
 
