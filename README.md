@@ -87,6 +87,19 @@
 
 
 
+
+
+
+<tr>
+    <td>9</td>
+    <td>Expense tracker</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Expense%20tracker/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>20/3/2024</td>
+  </tr>
+
+
    
    
 </table>
