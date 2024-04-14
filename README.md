@@ -112,6 +112,45 @@
     <td>#python</td>
     <td>13/04/2024</td>
   </tr>
+
+
+<tr>
+    <td>11</td>
+    <td>Mind Palace Maker</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Mind_Palace_Maker/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>14/04/2024</td>
+  </tr>
+
+
+<tr>
+    <td>12</td>
+    <td>Random quote generator</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Random_quote_generator/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>14/04/2024</td>
+  </tr>
+
+
+<tr>
+    <td>13</td>
+    <td>Trignometry graphs</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/blob/main/Python/Trignometry_graphs/main.py">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>14/04/2024</td>
+  </tr>
+  
+
+
+
+
+
+
+
+
 </table>
 
 </body>
