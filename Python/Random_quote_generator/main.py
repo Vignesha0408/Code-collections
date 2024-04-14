@@ -1,0 +1,130 @@
+import random
+quotes_collection=[
+"We gain freedom when we have paid the full price.   ",
+"The roots below the earth claim no rewards for making branches fruitful.   ",
+"The butterfly counts not months but moments,and has time enough.   ",
+"You can't cross the sea merely by standing and starting at water.   ",
+"Be a hero always say,\"I have no fear.\"   ",
+"Lefe is short,and it is up to you to make it sweet.   ",
+"Good ideas come from bad ideas,but only if there are enough of them.   ",
+"To guess is cheap, to guess wrong is expensive.   ",
+"Don't worry about those who talk behind your back they're behind you for a reason.   ",
+"Lack of knowledge is darker than night.   ",
+"Do what you can, with what you have, where you are.   ",
+"Success always occurs in private, and failure in full view.   ",
+"Smooth seas do not make skillful sailors.   ",
+"An old banana leaf was once young and green.   ",
+"If you can't fly,then run,if you can't run, then walk,if you can't walk then crawl, but whatever you do you have to keep moving.   ",
+"Believing in yourself is the first \"secret to success\"   ",
+"The only way to do great work is to love what you do.   ",
+"Don\'t be afraid to give up the good to go for the great.   ",
+"The best time to plant a tree was 20 years ago. The second best time is now.   ",
+"Fall seven times and stand up eight.   ",
+"It's not about how many times you fall, but how many times you get back up.   ",
+"If you can dream it, you can do it.   ",
+"Every day is a new opportunity.   ",
+"Hold onto your dreams.   ",
+"A journey of a thousand miles begins with a single step.   ",
+"The difference between ordinary and extraordinary is that little extra.   ",
+"Make your weakness your strength.   ",
+"Don't let yesterday take up too much of today.   ",
+"Doubt kills more dreams than failure ever will.   ",
+"You are braver than you believe, stronger than you seem, and smarter than you think.   ",
+"Your comfort zone is a beautiful place, but it never leads to growth.   ",
+"It always seems impossible until it\'s done.   ",
+"The mind is everything. What you think you become.   ",
+"The best revenge is massive success.   ",
+"The only limit to our realization of tomorrow will be our doubts of today.   ",
+"Don't wait for the perfect moment; take moments and make them perfect.   ",
+"The best way to predict the future is to create it.   ",
+"A ship in harbor is safe, but that is not what ships are built for.   ",
+"Wherever you go, go with all your heart.   ",
+"You can't control the wind, but you can adjust your sails.   ",
+"Learning never exhausts the mind.  ",
+"You are never too old to set another goal or to dream a new dream.   ",
+"The key to success is to focus on the goals, not on the obstacles.   ",
+"You don\'t have to be great to start, but you have to start to be great.   ",
+"Failure is simply the opportunity to begin again, this time more intelligently.   ",
+"Keep smiling, because life is beautiful and things will get better.   ",
+"You are capable of amazing things.   ",
+"The man who moves a mountain begins by carrying away small stones.   ",
+"You may not control all the events that happen to you, but you can decide not to be reduced by them.   ",
+"The only true failure is giving up.   ",
+"Don't let small minds convince you that your dreams are too big.   ",
+"The journey of a thousand miles begins with a single step, but don't forget to pack some snacks.   ",
+"Every day is a chance to get better. Yesterday you learned, today you grow.   ",
+"Strive not to be a success, but rather to be of value.   ",
+"Challenges are what make life interesting. Overcoming them is what makes life meaningful.   ",
+"It's okay to be scared. It's even better to be brave anyway.   ",
+"You are braver than you believe, stronger than you seem, and smarter than you think.   ",
+"Failure is not the opposite of success, it's part of the path to success.   ",
+"You can't control the weather, but you can control your umbrella.   ",
+"The world needs what you have to offer. Don't hold back.   ",
+"A dream doesn't become reality through magic; it takes sweat, determination, and hard work.   ",
+"The two most important days in your life are the day you are born and the day you find out why   ",
+"Be the reason someone smiles today.   ",
+"The more you praise and celebrate your life, the more there is in life to celebrate.   ",
+"Nothing is impossible, the word itself says \'I\'m possible!   ",
+"You are not a drop in the ocean. You are the entire ocean in a drop.   ",
+"Kindness is the language that everyone understands.   ",
+"Growth is painful. Change is painful. But nothing is as painful as staying stuck somewhere you don't belong.   ",
+"Don\'t compare your Chapter 1 to someone else's Chapter 20.   ",
+"The only way to do impossible things is to believe it's possible.   ",
+"A river cuts through rock, not because of its power, but because of its persistence.   ",
+"It's not what happens to you, but how you react that matters.   ",
+"The world needs more dreamers and doers. Be both.   ",
+"Believe in yourself. You are braver than you think, more talented than you know, and capable of more than you imagine.   ",
+"Imperfect action is better than perfect inaction.   ",
+"The only limit to your impact is your imagination and commitment.   ",
+"The obstacle in the path becomes the way.   ",
+"Success is not final, failure is not fatal: it is the courage to continue that counts.   ",
+"The best way to predict the future is to create it.   ",
+"A friend is someone who knows you and loves you anyway   ",
+"Dream big, act small. Start with the little things that move you towards your giant goals.   ",
+"Don't be afraid of failure. It's proof you're trying.   ",
+"Life isn't perfect, but your hair can be.   ",
+"A closed mind is like a closed book. There's no room for new stories.   ",
+"Challenges make life interesting.   ",
+"Laughter is the best medicine,   ",
+"Don't judge a book by its cover, but do judge a pie by its crust.   ",
+"Yesterday is history, tomorrow is a mystery, today is a gift. That's why it's called the present.   ",
+"A journey of a thousand miles begins with a single step, but a trip to the fridge only requires opening the door.   ",
+"The only person you are destined to become is the person you decide to be.   ",
+"Never underestimate the power of a good nap.   ",
+"You can\'t control the weather, but you can control your attitude.   ",
+"Life is short. Eat dessert first.   ",
+"With great power comes the responsibility to take a nap.   ",
+"A friend is someone who knows you and loves you anyway.   ",
+"Be yourself, everyone else is already taken.   ",
+"A smile is the universal language of kindness.   ",
+"Be the reason someone smiles today.   ",
+"A hug is worth a thousand words.   ",
+"Don\'t let yesterday take up too much of today.   ",
+"Coffee first, questions later   ",
+"The only true wisdom is in knowing you know nothing.   ",
+"Sometimes you win, sometimes you learn.   ",
+"Don't let perfect be the enemy of good.   ",
+"Be strong, but not rude. Be kind, but not weak. Be happy, but not arrogant.   ",
+"The best things in life are free.   "
+]
+
+
+
+
+print("How many quotes you want to generate..")
+var1=int(input())
+
+for i in range(1,var1+1):
+    x=random.choice(quotes_collection)
+    quotes_collection.remove(x)
+    print(f"{i}.{x}");
+    if i == 100:
+        print("Storage full..")
+        exit(0);
+
+    
+    
+
+
+
+
