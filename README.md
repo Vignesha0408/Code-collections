@@ -164,6 +164,17 @@
 
 
 
+<tr>
+    <td>16</td>
+    <td>Word counter</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Code-collections/tree/main/Python/Word%20counter">GitHub Repo</a></td>
+    <td>#python</td>
+    <td>11/08/2024</td>
+  </tr>
+ 
+
+
 
 </table>
 
