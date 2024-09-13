@@ -175,16 +175,7 @@
   </tr>
  
 
-<tr>
-    <td>17</td>
-    <td>DSA C sample programs</td>
-    <td>-----</td>
-     <td><a href="https://github.com/Vignesha0408/Code-collections/tree/main/DSA%20C%20sample%20programs">GitHub Repo</a></td>
-    <td>#C
-     #DSA</td>
-    <td>28/08/2024</td>
-  </tr>
-
+ 
 
 </table>
 
