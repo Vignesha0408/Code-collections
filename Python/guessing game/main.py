@@ -1,3 +1,45 @@
+/*4) Develop a C program which demonstrates interprocess communication 
+between a reader process and a writer process. Use mkfifo, open, read, write 
+and close APIs in your program. 
+SOURCE CODE:  
+WRITERS PROCESS: 
+#include<stdio.h> 
+#include<fcntl.h> 
+#include<sys/types.h> 
+#include<sys/stat.h> 
+#include<unistd.h> 
+int main() 
+{ 
+    int fd; 
+    char buf[1024]; 
+    char *myfifo="'/myfifo"; 
+    mkfifo(myfifo,0666); 
+    printf("Run readers process to read the FIFO file\n"); 
+    fd=open(myfifo,O_WRONLY); 
+    write(fd,"Hii",sizeof("Hi")); 
+    close(fd); 
+    unlink(myfifo); 
+    return 0; 
+} 
+ 
+WRITERS PROCESS: 
+#include<stdio.h> 
+#include<fcntl.h> 
+#include<sys/types.h> 
+#include<sys/stat.h> 
+#include<unistd.h> 
+#define MAX_BUF 1024 
+int main() { 
+int fd; 
+char *myfifo="./myfifo"; 
+char buf[MAX_BUF]; 
+fd=open(myfifo,O_RDONLY); 
+read(fd,buf,MAX_BUF); 
+printf("Write: %s\n",buf); 
+return 0; 
+}*/
+
+
 #you will play the game when you run it
 import random
 print("\" THE GUESSING GAME\"")
