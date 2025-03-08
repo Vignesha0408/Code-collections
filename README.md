@@ -175,6 +175,63 @@
   </tr>
  
 
+
+<tr>
+    <td>17</td>
+    <td>Basic programs</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Placement-prep/tree/main/Basic%20programs">GitHub Repo</a></td>
+    <td>#C
+     #Placement</td>
+    <td>08/03/2025</td>
+  </tr>
+
+
+<tr>
+    <td>18</td>
+    <td>Internpe programs</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/Placement-prep/tree/main/Internpe">GitHub Repo</a></td>
+    <td>#java</td>
+    <td>08/03/2025</td>
+  </tr>
+
+
+  
+  <tr>
+    <td>19</td>
+    <td>DSA-sample-simple-programs</td>
+    <td>-----</td>
+     <td><a href="https://github.com/Vignesha0408/DSA-sample-simple-programs">GitHub Repo</a></td>
+    <td>#C</td>
+    <td>08/03/2025</td>
+  </tr>
+
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 
 </table>
