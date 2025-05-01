@@ -1,3 +1,4 @@
+#variables total_amount,total_date and total_discription
 total_amount = {} ;
 total_date = {} ;
 total_discription = {} ;
