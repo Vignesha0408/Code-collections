@@ -1,3 +1,61 @@
+"""
+This script is a simple personal/business expense tracker written in Python.
+
+Purpose:
+---------
+The program helps users manage their business income and track their expenses.
+It collects information such as the total income, the source of income, and multiple expense details (amount, date, and description).
+It then displays a summary of all expenses and suggests a breakdown of the remaining savings into various categories.
+
+Functionality:
+--------------
+1. Takes user input for:
+   - Total income
+   - Source of income
+   - Multiple expenses including:
+     - Amount
+     - Date or day of the expense
+     - Description of the expense
+
+2. Stores each set of expense data in separate dictionaries:
+   - `total_amount`: for storing expense amounts
+   - `total_date`: for storing corresponding dates
+   - `total_discription`: for storing descriptions
+
+3. Prints a summary of all expenses in a readable format.
+
+4. Calculates:
+   - Total expenses
+   - Remaining income (income - total expenses)
+
+5. Suggests how to allocate the remaining income:
+   - 50% to bank savings
+   - 25% to parents
+   - 10% for daily expenses
+   - 12% for school donations
+   - 3% as a personal bonus
+
+Usage:
+------
+Run the script in a Python environment.
+Follow prompts to enter income and expense details.
+The script will output a financial summary and savings recommendation.
+
+Note:
+-----
+- Make sure to input numeric values for amounts.
+- The script assumes correct input from the user; input validation can be added for robustness.
+- Expense entries are stored using incremental keys like 'Amount 1', 'Amount 2', etc.
+"""
+
+
+
+
+
+
+
+
+
 #variables total_amount,total_date and total_discription
 total_amount = {} ;
 total_date = {} ;
