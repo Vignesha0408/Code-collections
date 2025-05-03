@@ -227,11 +227,11 @@
 
   <tr>
     <td>22</td>
-    <td>-----Name-----</td>
-    <td><a href="-----">Click me</a></td>
-     <td><a href="-----">GitHub Repo</a></td>
-    <td>-----</td>
-    <td>--/--/2025</td>
+    <td>Red Marker</td>
+    <td><a href="https://vignesha0408.github.io/vignesh-s-html-pages/Beautiful_marker/index.html">Click me</a></td>
+     <td><a href="https://github.com/Vignesha0408/vignesh-s-html-pages/tree/main/Beautiful_marker">GitHub Repo</a></td>
+    <td> #CSS</td>
+    <td>03/05/2025</td>
   </tr>
 
   <tr>
