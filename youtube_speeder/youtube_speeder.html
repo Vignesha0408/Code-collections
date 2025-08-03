@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Speed Controller</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s;
+        }
+        #player-container {
+            text-align: center;
+            position: relative;
+        }
+        #player {
+            width: 1280px;
+            height: 720px;
+        }
+        #url-input {
+            width: 500px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            display: block;
+        }
+        #load-button, #fullscreen-button, #increase-size, #decrease-size, #volume-up, #volume-down, #play-pause, #download-button, #mute-button, #loop-button, #theater-mode {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 0 5px 10px 5px;
+            outline: none;
+        }
+        #load-button:hover, #fullscreen-button:hover, #increase-size:hover, #decrease-size:hover, #volume-up:hover, #volume-down:hover, #play-pause:hover, #download-button:hover, #mute-button:hover, #loop-button:hover, #theater-mode:hover {
+            background-color: #218838;
+        }
+        #speed-controls {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3px;
+        }
+        .speed-button {
+            padding: 8px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+        .speed-button:hover {
+            background-color: #0056b3;
+        }
+        .speed-button.active {
+            background-color: #28a745;
+        }
+        #speed-display {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+        #volume-display {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+        #timeline {
+            width: 1280px;
+            height: 10px;
+            background-color: #ccc;
+            margin-top: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+        #playhead {
+            width: 5px;
+            height: 10px;
+            background-color: red;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: left 0.1s;
+            z-index: 1000;
+        }
+        #player-container:fullscreen #timeline {
+            position: absolute;
+            bottom: 100px; /* Increased to avoid overlap */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            z-index: 1000;
+        }
+        #player-container:fullscreen #player {
+            width: 90% !important;
+            height: 90% !important;
+            object-fit: contain;
+        }
+        #player-container:fullscreen #speed-controls {
+            padding: 5px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #player-container:fullscreen .speed-button {
+            padding: 6px 10px;
+            font-size: 10px;
+        }
+        #player-container:-webkit-full-screen #timeline {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            z-index: 1000;
+        }
+        #player-container:-webkit-full-screen #player {
+            width: 90% !important;
+            height: 90% !important;
+            object-fit: contain;
+        }
+        #player-container:-webkit-full-screen #speed-controls {
+            padding: 5px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #player-container:-webkit-full-screen .speed-button {
+            padding: 6px 10px;
+            font-size: 10px;
+        }
+        #player-container:-moz-full-screen #timeline {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            z-index: 1000;
+        }
+        #player-container:-moz-full-screen #player {
+            width: 90% !important;
+            height: 90% !important;
+            object-fit: contain;
+        }
+        #player-container:-moz-full-screen #speed-controls {
+            padding: 5px;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #player-container:-moz-full-screen .speed-button {
+            padding: 6px 10px;
+            font-size: 10px;
+        }
+        #download-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+        }
+        #download-dialog button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #download-dialog button:hover {
+            background-color: #0056b3;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        /* Hide URL input in fullscreen */
+        #player-container:fullscreen #url-input,
+        #player-container:-webkit-full-screen #url-input,
+        #player-container:-moz-full-screen #url-input {
+            display: none;
+        }
+        /* Theater Mode Styles */
+        .theater-mode {
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .theater-mode #player {
+            margin: 0 auto;
+            display: block;
+        }
+        .theater-mode #load-button,
+        .theater-mode #fullscreen-button,
+        .theater-mode #increase-size,
+        .theater-mode #decrease-size,
+        .theater-mode #volume-up,
+        .theater-mode #volume-down,
+        .theater-mode #play-pause,
+        .theater-mode #download-button,
+        .theater-mode #mute-button,
+        .theater-mode #loop-button,
+        .theater-mode #url-input,
+        .theater-mode #speed-controls,
+        .theater-mode #speed-display,
+        .theater-mode #volume-display,
+        .theater-mode #timeline {
+            display: none;
+        }
+        .theater-mode #theater-mode {
+            display: block;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #fff;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00f, 0 0 10px #0ff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 255, 255, 0.3);
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .theater-mode #theater-mode::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .theater-mode #theater-mode:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        .theater-mode #theater-mode:hover {
+            transform: scale(1.05);
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        @media (max-width: 1300px) {
+            .theater-mode #player {
+                width: 90%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="player-container">
+        <input type="text" id="url-input" placeholder="Paste your YouTube link here" aria-label="YouTube URL input">
+        <div>
+            <button id="load-button" aria-label="Load video">Load</button>
+            <button id="fullscreen-button" aria-label="Toggle fullscreen">View in Fullscreen</button>
+            <button id="increase-size" aria-label="Increase video size">+</button>
+            <button id="decrease-size" aria-label="Decrease video size">−</button>
+            <button id="volume-up" aria-label="Increase volume">Vol +</button>
+            <button id="volume-down" aria-label="Decrease volume">Vol −</button>
+            <button id="mute-button" aria-label="Toggle mute">Mute</button>
+            <button id="play-pause" aria-label="Toggle play/pause">Pause</button>
+            <button id="download-button" aria-label="Open download options">Download</button>
+            <button id="loop-button" aria-label="Toggle loop">Loop On</button>
+            <button id="theater-mode" aria-label="Toggle theater mode">Theater Mode</button>
+        </div>
+        <div id="player"></div>
+        <div id="timeline">
+            <div id="playhead"></div>
+        </div>
+        <div id="speed-controls" aria-label="Speed control buttons">
+            <button class="speed-button" data-speed="0.25" aria-label="Set speed to 0.25x">0.25x</button>
+            <button class="speed-button" data-speed="0.5" aria-label="Set speed to 0.5x">0.5x</button>
+            <button class="speed-button active" data-speed="1" aria-label="Set speed to 1x">1x</button>
+            <button class="speed-button" data-speed="1.25" aria-label="Set speed to 1.25x">1.25x</button>
+            <button class="speed-button" data-speed="1.5" aria-label="Set speed to 1.5x">1.5x</button>
+            <button class="speed-button" data-speed="2" aria-label="Set speed to 2x">2x</button>
+            <button class="speed-button" data-speed="3" aria-label="Set speed to 3x">3x</button>
+            <button class="speed-button" data-speed="4" aria-label="Set speed to 4x">4x</button>
+            <button class="speed-button" data-speed="5" aria-label="Set speed to 5x">5x</button>
+            <button class="speed-button" data-speed="7" aria-label="Set speed to 7x">7x</button>
+            <button class="speed-button" data-speed="9" aria-label="Set speed to 9x">9x</button>
+            <button class="speed-button" data-speed="10" aria-label="Set speed to 10x">10x</button>
+            <button class="speed-button" data-speed="15" aria-label="Set speed to 15x">15x</button>
+            <button class="speed-button" data-speed="25" aria-label="Set speed to 25x">25x</button>
+            <button class="speed-button" data-speed="50" aria-label="Set speed to 50x">50x</button>
+            <button class="speed-button" data-speed="75" aria-label="Set speed to 75x">75x</button>
+            <button class="speed-button" data-speed="100" aria-label="Set speed to 100x">100x</button>
+        </div>
+        <div id="speed-display" aria-live="polite">Current Speed: 1x</div>
+        <div id="volume-display" aria-live="polite">Current Volume: 5%</div>
+        <div id="error-message" aria-live="polite"></div>
+        <div id="overlay"></div>
+        <div id="download-dialog" role="dialog" aria-labelledby="download-dialog-title">
+            <span id="download-dialog-title" hidden>Download Options</span>
+            <button id="download-video" aria-label="Download video">Video</button>
+            <button id="download-audio" aria-label="Download audio">Audio</button>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let player;
+        let currentSpeed = 1.0;
+        let speedInterval = null;
+        let isDragging = false;
+        let playerHeight = 720;
+        const aspectRatio = 16 / 9;
+        const maxHeight = 720;
+        const minHeight = 200;
+        let currentVolume = 5;
+        let isPaused = false;
+        let isMuted = false;
+        let lastVolume = 5;
+        let isLooping = true;
+
+        const volumeSequence = [
+            0, 0.25, 0.50, 0.75, 1, 2, 2.5, 5, 7.5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
+            110, 120, 130, 140, 150, 160, 170, 180, 190, 200,
+            210, 220, 230, 240, 250, 260, 270, 280, 290, 300
+        ];
+
+        function mapVolumeToApi(volume) {
+            if (volume === 0) return 0;
+            if (volume > 100) return 100;
+
+            const points = [
+                { percent: 0, api: 0 },
+                { percent: 0.25, api: 10 },
+                { percent: 0.50, api: 20 },
+                { percent: 0.75, api: 35 },
+                { percent: 1, api: 41 },
+                { percent: 25, api: 54 },
+                { percent: 100, api: 100 }
+            ];
+
+            let lowerPoint = points[0];
+            let upperPoint = points[points.length - 1];
+            for (let i = 0; i < points.length - 1; i++) {
+                if (volume >= points[i].percent && volume <= points[i + 1].percent) {
+                    lowerPoint = points[i];
+                    upperPoint = points[i + 1];
+                    break;
+                }
+            }
+
+            const percentRange = upperPoint.percent - lowerPoint.percent;
+            const apiRange = upperPoint.api - lowerPoint.api;
+            const fraction = (volume - lowerPoint.percent) / percentRange;
+            return Math.round(lowerPoint.api + fraction * apiRange);
+        }
+
+        function extractVideoId(url) {
+            const regex = /(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.innerText = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function clearError() {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.innerText = '';
+            errorDiv.style.display = 'none';
+        }
+
+        function updateSpeedButtons(selectedSpeed) {
+            const buttons = document.querySelectorAll('.speed-button');
+            let isPreset = false;
+            buttons.forEach(button => {
+                const buttonSpeed = parseFloat(button.dataset.speed);
+                const isActive = Math.abs(buttonSpeed - selectedSpeed) < 0.01;
+                button.classList.toggle('active', isActive);
+                if (isActive) isPreset = true;
+            });
+            if (!isPreset) buttons.forEach(button => button.classList.remove('active'));
+            document.getElementById('speed-display').innerText = `Current Speed: ${selectedSpeed.toFixed(2)}x`;
+        }
+
+        function updateVolumeDisplay() {
+            document.getElementById('volume-display').innerText = `Current Volume: ${isMuted ? 0 : currentVolume}%`;
+        }
+
+        function stopHighSpeedSimulation() {
+            if (speedInterval) {
+                clearInterval(speedInterval);
+                speedInterval = null;
+            }
+        }
+
+        function setPlaybackSpeed(speed) {
+            stopHighSpeedSimulation();
+            const maxApiSpeed = 2.0;
+            if (player && typeof player.setPlaybackRate === 'function') {
+                if (speed <= maxApiSpeed) {
+                    player.setPlaybackRate(speed);
+                } else {
+                    player.setPlaybackRate(maxApiSpeed);
+                    const factor = speed / maxApiSpeed;
+                    speedInterval = setInterval(() => {
+                        if (player.getPlayerState() === 1) {
+                            const currentTime = player.getCurrentTime();
+                            const duration = player.getDuration();
+                            if (currentTime < duration) player.seekTo(currentTime + factor * 0.1, true);
+                            else stopHighSpeedSimulation();
+                        }
+                    }, 100);
+                }
+            } else {
+                setTimeout(() => setPlaybackSpeed(speed), 500);
+            }
+        }
+
+        function updatePlayhead() {
+            if (player && player.getDuration()) {
+                const currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
+                const percentage = (currentTime / duration) * 100;
+                const playhead = document.getElementById('playhead');
+                playhead.style.left = `${percentage}%`;
+            }
+        }
+
+        function updatePlayerSize() {
+            const playerElement = document.getElementById('player');
+            const timeline = document.getElementById('timeline');
+            const width = playerHeight * aspectRatio;
+            playerElement.style.height = `${playerHeight}px`;
+            playerElement.style.width = `${width}px`;
+            timeline.style.width = `${width}px`;
+            if (player && typeof player.setSize === 'function') player.setSize(width, playerHeight);
+        }
+
+        function increaseSize() {
+            playerHeight = Math.min(maxHeight, playerHeight + 20);
+            updatePlayerSize();
+        }
+
+        function decreaseSize() {
+            playerHeight = Math.max(minHeight, playerHeight - 20);
+            updatePlayerSize();
+        }
+
+        function increaseVolume() {
+            if (isMuted) toggleMute();
+            const currentIndex = volumeSequence.findIndex(v => v >= currentVolume);
+            const nextIndex = Math.min(currentIndex + 1, volumeSequence.length - 1);
+            currentVolume = volumeSequence[nextIndex];
+            if (player && typeof player.setVolume === 'function') player.setVolume(mapVolumeToApi(currentVolume));
+            updateVolumeDisplay();
+        }
+
+        function decreaseVolume() {
+            if (isMuted) toggleMute();
+            const currentIndex = volumeSequence.findIndex(v => v >= currentVolume);
+            const prevIndex = currentIndex === -1 ? volumeSequence.length - 1 : Math.max(0, currentIndex - 1);
+            currentVolume = volumeSequence[prevIndex];
+            if (player && typeof player.setVolume === 'function') player.setVolume(mapVolumeToApi(currentVolume));
+            updateVolumeDisplay();
+        }
+
+        function toggleMute() {
+            if (player) {
+                if (isMuted) {
+                    currentVolume = lastVolume;
+                    player.setVolume(mapVolumeToApi(currentVolume));
+                    isMuted = false;
+                    document.getElementById('mute-button').innerText = 'Mute';
+                } else {
+                    lastVolume = currentVolume;
+                    currentVolume = 0;
+                    player.setVolume(0);
+                    isMuted = true;
+                    document.getElementById('mute-button').innerText = 'Unmute';
+                }
+                updateVolumeDisplay();
+            }
+        }
+
+        function togglePlayPause() {
+            if (player) {
+                if (isPaused) {
+                    player.playVideo();
+                    document.getElementById('play-pause').innerText = 'Pause';
+                    isPaused = false;
+                } else {
+                    player.pauseVideo();
+                    document.getElementById('play-pause').innerText = 'Play';
+                    isPaused = true;
+                }
+            }
+        }
+
+        function toggleLoop() {
+            isLooping = !isLooping;
+            document.getElementById('loop-button').innerText = isLooping ? 'Loop On' : 'Loop Off';
+            if (player) player.setLoop(isLooping);
+        }
+
+        function handleTimelineClick(event) {
+            if (player && player.getDuration()) {
+                const timeline = document.getElementById('timeline');
+                const rect = timeline.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                const percentage = clickX / rect.width;
+                const duration = player.getDuration();
+                const newTime = percentage * duration;
+                player.seekTo(newTime, true);
+                updatePlayhead();
+            }
+        }
+
+        function loadVideo() {
+            const url = document.getElementById('url-input').value.trim();
+            const videoId = extractVideoId(url);
+            clearError();
+            stopHighSpeedSimulation();
+
+            if (!videoId) {
+                showError('Invalid YouTube URL');
+                return;
+            }
+
+            currentSpeed = 1.0;
+            playerHeight = maxHeight;
+            currentVolume = 5;
+            lastVolume = 5;
+            isMuted = false;
+            isPaused = false;
+            isLooping = true;
+            updateSpeedButtons(currentSpeed);
+            updatePlayerSize();
+            updateVolumeDisplay();
+            document.getElementById('mute-button').innerText = 'Mute';
+            document.getElementById('loop-button').innerText = 'Loop On';
+            document.getElementById('play-pause').innerText = 'Pause';
+
+            if (player && typeof player.loadVideoById === 'function') {
+                player.loadVideoById(videoId);
+                player.setVolume(mapVolumeToApi(currentVolume));
+                setPlaybackSpeed(currentSpeed);
+                player.setLoop(isLooping);
+            } else {
+                player = new YT.Player('player', {
+                    height: playerHeight,
+                    width: playerHeight * aspectRatio,
+                    videoId: videoId,
+                    playerVars: { 'playsinline': 1, 'controls': 1 },
+                    events: {
+                        'onReady': (event) => {
+                            setPlaybackSpeed(currentSpeed);
+                            event.target.setVolume(mapVolumeToApi(currentVolume));
+                            event.target.playVideo();
+                            event.target.setLoop(isLooping);
+                            document.getElementById('play-pause').innerText = 'Pause';
+                            document.getElementById('mute-button').innerText = 'Mute';
+                            document.getElementById('loop-button').innerText = 'Loop On';
+                            updatePlayerSize();
+                            updateVolumeDisplay();
+                        },
+                        'onStateChange': (event) => {
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                updatePlayhead();
+                                setInterval(updatePlayhead, 1000);
+                                document.getElementById('play-pause').innerText = 'Pause';
+                                isPaused = false;
+                            } else if (event.data === YT.PlayerState.PAUSED) {
+                                document.getElementById('play-pause').innerText = 'Play';
+                                isPaused = true;
+                            } else if (event.data === YT.PlayerState.ENDED && isLooping) {
+                                player.seekTo(0, true);
+                                player.playVideo();
+                            }
+                        },
+                        'onError': () => showError('Error loading video. Please check the URL or internet connection.')
+                    }
+                });
+            }
+        }
+
+        function toggleFullscreen() {
+            const playerContainer = document.getElementById('player-container');
+            const fullscreenButton = document.getElementById('fullscreen-button');
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.mozFullScreenElement) {
+                if (playerContainer.requestFullscreen) playerContainer.requestFullscreen();
+                else if (playerContainer.webkitRequestFullscreen) playerContainer.webkitRequestFullscreen();
+                else if (playerContainer.mozRequestFullScreen) playerContainer.mozRequestFullScreen();
+                fullscreenButton.innerText = 'View Out Fullscreen';
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+                fullscreenButton.innerText = 'View in Fullscreen';
+            }
+            updatePlayerSize();
+        }
+
+        function handleKeyboardShortcuts(event) {
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                currentSpeed = Math.min(currentSpeed + 0.2, 100);
+                updateSpeedButtons(currentSpeed);
+                setPlaybackSpeed(currentSpeed);
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                currentSpeed = Math.max(currentSpeed - 0.2, 0.25);
+                updateSpeedButtons(currentSpeed);
+                setPlaybackSpeed(currentSpeed);
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                increaseVolume();
+            } else if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                decreaseVolume();
+            } else if (event.key === ' ') {
+                event.preventDefault();
+                togglePlayPause();
+            } else if (event.key.toLowerCase() === 'm') {
+                event.preventDefault();
+                toggleMute();
+            } else if (event.key.toLowerCase() === 'l') {
+                event.preventDefault();
+                toggleLoop();
+            }
+        }
+
+        function handleTimelineScroll(event) {
+            event.preventDefault();
+            if (player && player.getDuration()) {
+                const timeline = document.getElementById('timeline');
+                const rect = timeline.getBoundingClientRect();
+                const scrollAmount = event.deltaY * -0.01;
+                const currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
+                const newTime = Math.max(0, Math.min(duration, currentTime + scrollAmount));
+                player.seekTo(newTime, true);
+                updatePlayhead();
+            }
+        }
+
+        function showDownloadDialog() {
+            const dialog = document.getElementById('download-dialog');
+            const overlay = document.getElementById('overlay');
+            dialog.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function hideDownloadDialog() {
+            const dialog = document.getElementById('download-dialog');
+            const overlay = document.getElementById('overlay');
+            dialog.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        function downloadFile(type) {
+            const url = document.getElementById('url-input').value.trim();
+            const videoId = extractVideoId(url);
+            if (videoId) {
+                let downloadUrl = `https://example.com/download?videoId=${videoId}&type=${type}`; // Placeholder URL
+                if (type === 'video') downloadUrl += '&quality=high';
+                else if (type === 'audio') downloadUrl += '&quality=high';
+                window.open(downloadUrl, '_blank');
+            } else {
+                showError('Please load a valid YouTube video first.');
+            }
+            hideDownloadDialog();
+        }
+
+        function toggleTheaterMode() {
+            const playerContainer = document.getElementById('player-container');
+            playerContainer.classList.toggle('theater-mode');
+            const theaterButton = document.getElementById('theater-mode');
+            theaterButton.innerText = playerContainer.classList.contains('theater-mode') ? 'Exit Theater Mode' : 'Theater Mode';
+        }
+
+        // Ensure YouTube API initializes
+        if (window.YT) {
+            onYouTubeIframeAPIReady();
+        } else {
+            window.onYouTubeIframeAPIReady = function() {
+                onYouTubeIframeAPIReady();
+            };
+        }
+
+        function onYouTubeIframeAPIReady() {
+            document.getElementById('load-button').addEventListener('click', loadVideo);
+            document.getElementById('fullscreen-button').addEventListener('click', toggleFullscreen);
+            document.getElementById('increase-size').addEventListener('click', increaseSize);
+            document.getElementById('decrease-size').addEventListener('click', decreaseSize);
+            document.getElementById('volume-up').addEventListener('click', increaseVolume);
+            document.getElementById('volume-down').addEventListener('click', decreaseVolume);
+            document.getElementById('mute-button').addEventListener('click', toggleMute);
+            document.getElementById('play-pause').addEventListener('click', togglePlayPause);
+            document.getElementById('loop-button').addEventListener('click', toggleLoop);
+            document.getElementById('download-button').addEventListener('click', showDownloadDialog);
+            document.getElementById('download-video').addEventListener('click', () => downloadFile('video'));
+            document.getElementById('download-audio').addEventListener('click', () => downloadFile('audio'));
+            document.getElementById('theater-mode').addEventListener('click', toggleTheaterMode);
+            document.getElementById('overlay').addEventListener('click', hideDownloadDialog);
+            document.querySelectorAll('.speed-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    currentSpeed = parseFloat(button.dataset.speed);
+                    updateSpeedButtons(currentSpeed);
+                    setPlaybackSpeed(currentSpeed);
+                });
+            });
+            document.addEventListener('keydown', handleKeyboardShortcuts);
+            const timeline = document.getElementById('timeline');
+            timeline.addEventListener('wheel', handleTimelineScroll);
+            timeline.addEventListener('click', handleTimelineClick);
+        }
+    </script>
+</body>
+</html>
